@@ -12,5 +12,4 @@ class NovyHoodControl(hass.Hass):
         self.command_down = self.args['remote']['toggle']
         # Create fan entity
         if not self.entity_exists(self.name):
-            self.set_state(self.name, state = "off", attributes = {'speeds' = ['low','mid','high','boost']})
-        
+            self.set_state(self.name, state = "off", attributes = {'speeds': ['low','mid','high','boost']})
