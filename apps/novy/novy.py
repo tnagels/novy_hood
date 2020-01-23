@@ -7,6 +7,7 @@ class NovyHoodControl(hass.Hass):
         self.hood_name = self.args["hood"]["name"]
         self.hood_pretty = self.args["hood"]["friendly_name"]
         self.supported_features = 1                                     # Only speed is supported
+        self.icon = "mdi:pot"
         self.hood_speed_list = ["Low", "Medium", "High", "Boost"]       # Speeds supported by the hood
         self.hood_boost_time = 300                                      # Set lower than the boost time of the hood
         self.hood_speed = self.hood_speed_list[0]                       # Startup on low speed
@@ -54,7 +55,7 @@ class NovyHoodControl(hass.Hass):
         self.update_state()
 
     def update_state(self):
-        self.set_state(self.hood_name, state = self.hood_state, attributes = {"speed_list": self.hood_speed_list, "friendly_name": self.hood_pretty, "speed": self.hood_speed, "supported_features": self.supported_features})
+        self.set_state(self.hood_name, state = self.hood_state, attributes = {"speed_list": self.hood_speed_list, "friendly_name": self.hood_pretty, "speed": self.hood_speed, "supported_features": self.supported_features, "icon": self.icon})
 
     def stop_boost(self, *kwargs):
             self.hood_speed = self.hood_speed_list[-2]
