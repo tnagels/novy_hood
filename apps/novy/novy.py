@@ -17,7 +17,7 @@ class NovyHoodControl(hass.Hass):
         self.command_down = self.args["remote"]["down"]
         self.command_toggle = self.args["remote"]["toggle"]
         self.real_hood_speed = 0
-        self.real_delta = false
+        self.real_twin_delta = False
         # Create fan entity
         #if not self.entity_exists(self.hood_name):
         self.update_state()
@@ -58,25 +58,26 @@ class NovyHoodControl(hass.Hass):
 
     def update_state(self):
         self.set_state(self.hood_name, state = self.hood_state, attributes = {"speed_list": self.hood_speed_list, "friendly_name": self.hood_pretty, "speed": self.hood_speed, "supported_features": self.supported_features, "icon": self.icon})
-        if (self.real_hood_delta == false): self.control_hood();
+        if (self.real_twin_delta == False): self.control_hood();
 
     def stop_boost(self, *kwargs):
             self.hood_speed = self.hood_speed_list[-2]
             self.update_state()
 
     def control_hood(self, *kwargs):    # Control the hood with the "up" "down" buttons only
-        self.real_delta = true
+        self.real_twin_delta = True
         if (self.hood_state == "off"):
-            twin_hood_speed = 0;
+            twin_hood_speed = 0
         else:
             twin_hood_speed = self.hood_speed_list.index(self.hood_speed) + 2 # Make it so that on switching off there is an additional "down" action to counter difference between real and twin
-        if (self.real_hood_speed > twin_hood_speed):
-            self.real_hood_speed--
-            self.log("DOWN")
-        elif (self.real_hood_speed < twin_hood_speed):
-            self.real_hood_speed++
-            self.log("UP")
         if(self.real_hood_speed == twin_hood_speed):
-            self.real_delta = false;
+            self.real_twin_delta = False
         else:
-            run_in(control_hood(), 1)
+            if (self.real_hood_speed > twin_hood_speed):
+                self.real_hood_speed -= 1
+                self.log("DOWN")
+            elif (self.real_hood_speed < twin_hood_speed):
+                if (self.real_hood_speed == 0): self.real_hood_speed += 1
+                self.real_hood_speed += 1
+                self.log("UP")
+            self.run_in(self.control_hood, 1)
