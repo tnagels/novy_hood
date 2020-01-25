@@ -64,12 +64,12 @@ class NovyHoodControl(hass.Hass):
             self.hood_speed = self.hood_speed_list[-2]
             self.update_state()
 
-    def control_hood(self, *kwargs):
+    def control_hood(self, *kwargs):    # Control the hood with the "up" "down" buttons only
         self.real_delta = true
-        if self.hood_state = "off":
+        if (self.hood_state == "off"):
             twin_hood_speed = 0;
         else:
-            twin_hood_speed = self.hood_speed_list.index(self.hood_speed) + 2
+            twin_hood_speed = self.hood_speed_list.index(self.hood_speed) + 2 # Make it so that on switching off there is an additional "down" action to counter difference between real and twin
         if (self.real_hood_speed > twin_hood_speed):
             self.real_hood_speed--
             self.log("DOWN")
