@@ -1,5 +1,11 @@
 # novy_hood
-Home Assistant Appdeamon app for a Novy Hood
+Home Assistant Appdeamon app for a Novy Hood. This uses an RFXCOM interface which is controlled directly by the app. No other functions are possible with the RFXCOM.
+
+It also has an code for a Zigbee remote using Deconz to replace the original.
+
+Remember to add the `serial` python package to the AppDaemon config, otherwise it will not work.
+
+Example config:
 
 ```yaml
 novy_dampkap:
@@ -15,3 +21,5 @@ novy_dampkap:
     down: 4002
     toggle: 1002
 ```
+
+Code is provided as-is without licence requirement, but also without warranty. Use at your own risk.
